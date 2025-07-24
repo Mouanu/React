@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect} from 'react'
+import { useState, useCallback, useEffect,useRef} from 'react'
 
 import './App.css'
 
@@ -7,6 +7,10 @@ function App() {
   const [numberAllowed, setNumberAllowed] = useState(false)
   const [characterAllowed, setCharacterAllowed] = useState(false)
   const [password, setPassword] = useState("")
+
+  // useRef hook
+
+  const passwordRef = useRef(null)
 
 
   const passwordGenerator = useCallback(() =>{
@@ -18,7 +22,7 @@ function App() {
 
     if(characterAllowed) str += "!@#$%^&*()_+-=[]{}|<>?/"
 
-    for (let i = 0; i <= length; i++) {
+    for (let i = 1; i <= length; i++) {
     let char = Math.floor(Math.random() * str.length + 1)
       pass += str.charAt(char)
     }
@@ -27,6 +31,12 @@ function App() {
 
   },[length , numberAllowed, characterAllowed, setPassword])
 
+
+ const copyPassWordToClipboeard = useCallback(()=>{
+  passwordRef.current?.select()
+  passwordRef.current?.setSelectionRange(0,5)
+  window.navigator.clipboard.writeText(password)
+ },[password])
 
   useEffect(() => {
     passwordGenerator()
@@ -49,8 +59,10 @@ function App() {
         placeholder="Password"
         readOnly
         className="w-full bg-transparent text-white outline-none placeholder-gray-400"
+        ref = {passwordRef}
       />
       <button
+      onClick={copyPassWordToClipboeard}
   className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-200 ease-in-out transform hover:scale-105 active:scale-95"
 >
   Copy
@@ -66,7 +78,8 @@ function App() {
         max= {100}
         value = {length}
         className='cursor-pointer'
-        onChange={(e) => {setLength(e.target.value)}}
+        onChange={(e) => {setLength(e.target.value)
+        }}
          />
          <label>length:{length} </label>
       </div>
