@@ -12,13 +12,17 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         setUser({username,password})
+        // setUser(
+        // {username:username,
+        // password:password}
+        //)
     }
   return (
     <div >
       <h2>
             Login
             <input 
-            value={user}
+            value={username}
             onChange={(e)=>{ setUsername(e.target.value)}}
             type="text" placeholder='username' />
 
