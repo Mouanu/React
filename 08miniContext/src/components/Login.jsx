@@ -30,6 +30,7 @@ const Login = () => {
             value={password}
             onChange={(e)=>{ setPassword(e.target.value)}}
             type="text" placeholder='password' />
+            
             <button onClick={handleSubmit}>Submit</button>
       </h2>
     </div>
